@@ -1,485 +1,1469 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
-<title>NEO-HOME 3D Floor Plan - 120FPS Responsive</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<style>
-:root {
-    --bg: #06090f;
-    --fg: #cdf6ff;
-    --ac: #00e5ff;
-    --ac2: #ff2bd6;
-    --panel: rgba(8, 16, 28, 0.72);
-}
-body, html {
-    height: 100%;
-    margin: 0;
-    overflow: hidden;
-    background: var(--bg);
-    color: var(--fg);
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    touch-action: none; /* Prevent browser zooming/scrolling */
-}
-body {
-    background: radial-gradient(circle at 50% 45%, #0c2233, var(--bg) 72%);
-}
-.grid-bg {
-    position: absolute;
-    inset: 0;
-    background-image: linear-gradient(var(--ac) 1px, transparent 1px), linear-gradient(90deg, var(--ac) 1px, transparent 1px);
-    background-size: 44px 44px;
-    opacity: 0.06;
-}
-#view {
-    position: absolute;
-    inset: 0;
-    perspective: 1900px;
-    cursor: grab;
-}
-#view:active {
-    cursor: grabbing;
-}
-/* Hardware acceleration and will-change for 120FPS smoothness */
-#scene, #house, #house * {
-    transform-style: preserve-3d;
-    box-sizing: border-box;
-}
-#scene {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    will-change: transform;
-}
-#house {
-    position: absolute;
-    left: -217px;
-    top: -217px;
-}
-#house * {
-    position: absolute;
-}
-.pad {
-    border: 1px solid rgba(0, 229, 255, 0.35);
-    transform: translateZ(7px);
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Primary SEO Meta Tags -->
+    <title>Gangapada Dhaba | Authentic Indian Food on NH 5, Bhubaneswar</title>
+    <meta name="description" content="Visit Gangapada Dhaba on NH 5, Gangapada, Bhubaneswar for delicious Indian food, affordable meals (₹1–₹200) and a convenient highway dining experience. Open until 11:30 PM.">
+    <meta name="keywords" content="Gangapada Dhaba, Dhaba in Bhubaneswar, Restaurants near Gangapada, Restaurants on NH 5 Bhubaneswar, Indian food in Khordha, Dhaba near Bhubaneswar, highway restaurant Odisha">
+    <meta name="author" content="Gangapada Dhaba">
 
-.lbl {
-    white-space: nowrap;
-    font-size: 12px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    transform-origin: 0 0;
-    pointer-events: none;
-    padding: 3px 10px;
-    border: 1px solid currentColor;
-    background: var(--panel);
-    border-radius: 4px;
-    text-shadow: 0 0 8px currentColor;
-    box-shadow: 0 0 10px rgba(0, 229, 255, 0.25);
-    will-change: transform;
-    backdrop-filter: blur(4px);
-}
-@keyframes spin { from { transform: translateZ(38px) rotateZ(0); } to { transform: translateZ(38px) rotateZ(360deg); } }
-@keyframes spin2 { from { transform: translateZ(56px) rotateX(72deg) rotateZ(0); } to { transform: translateZ(56px) rotateX(72deg) rotateZ(-360deg); } }
-@keyframes bob { 0%, 100% { transform: translateZ(40px); } 50% { transform: translateZ(54px); } }
-@keyframes scan { from { transform: translateZ(9px) translateY(0); } to { transform: translateZ(9px) translateY(418px); } }
-@keyframes pulse { 0%, 100% { opacity: 0.35; } 50% { opacity: 1; } }
+    <!-- Google Fonts: Cormorant Garamond for cinematic headings + Plus Jakarta Sans for clean UI -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-/* Tailwind Button Active State Override */
-.btn-on {
-    background-color: var(--ac);
-    color: #021018;
-    box-shadow: 0 0 16px var(--ac);
-    border-color: transparent;
-}
-</style>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dhaba: {
+                            bg: '#13100E',
+                            surface: '#1C1714',
+                            card: '#241E1A',
+                            border: '#362C26',
+                            gold: '#E89830',
+                            goldHover: '#F5A842',
+                            terracotta: '#D95326',
+                            cream: '#FDFBF7',
+                            sand: '#D5CBC0',
+                            muted: '#9C8F82'
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+                        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'glow': '0 10px 30px -5px rgba(232, 152, 48, 0.25)',
+                        'card': '0 20px 40px -15px rgba(0, 0, 0, 0.6)'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS for rich textures, scrollbar, and subtle animations -->
+    <style>
+        body {
+            background-color: #13100E;
+            color: #FDFBF7;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Subtle warm radial glow behind sections */
+        .warm-ambient-bg {
+            background-image: 
+                radial-gradient(circle at 15% 20%, rgba(232, 152, 48, 0.08) 0%, transparent 45%),
+                radial-gradient(circle at 85% 80%, rgba(217, 83, 38, 0.07) 0%, transparent 45%);
+        }
+
+        /* Traditional Indian geometric border accent */
+        .dhaba-pattern-divider {
+            height: 6px;
+            background: repeating-linear-gradient(
+                90deg,
+                #E89830 0px,
+                #E89830 16px,
+                transparent 16px,
+                transparent 24px,
+                #D95326 24px,
+                #D95326 40px,
+                transparent 40px,
+                transparent 48px
+            );
+            opacity: 0.45;
+        }
+
+        /* Glassmorphism utilities */
+        .glass-nav {
+            background: rgba(19, 16, 14, 0.88);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        .glass-card {
+            background: rgba(36, 30, 26, 0.78);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(232, 152, 48, 0.16);
+        }
+
+        /* Editable visual cue when Owner Edit Mode is active */
+        .owner-editable[contenteditable="true"] {
+            outline: 2px dashed #E89830;
+            outline-offset: 4px;
+            background-color: rgba(232, 152, 48, 0.12);
+            border-radius: 4px;
+            cursor: text;
+            padding: 1px 4px;
+            transition: all 0.2s ease;
+        }
+
+        .owner-editable[contenteditable="true"]:focus {
+            outline: 2px solid #F5A842;
+            background-color: rgba(232, 152, 48, 0.22);
+        }
+
+        /* Smooth image zoom on card hover */
+        .food-card-img {
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .food-card:hover .food-card-img {
+            transform: scale(1.07);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #13100E;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #362C26;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #E89830;
+        }
+    </style>
+
+    <!-- LocalBusiness Schema for SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Restaurant",
+      "name": "Gangapada Dhaba",
+      "servesCuisine": "Indian, Odia, North Indian, Tandoor, Biryani",
+      "priceRange": "₹1–₹200",
+      "telephone": "+91-9861310152",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "NH 5, Gangapada",
+        "addressLocality": "Khordha, Bhubaneswar",
+        "addressRegion": "Odisha",
+        "postalCode": "752054",
+        "addressCountry": "IN"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "3.8",
+        "reviewCount": "496"
+      },
+      "openingHours": "Mo-Su 07:30-23:30"
+    }
+    </script>
 </head>
-<body>
+<body class="antialiased selection:bg-dhaba-gold selection:text-dhaba-bg pb-20 lg:pb-0">
 
-<div class="grid-bg"></div>
-
-<div id="view">
-    <div id="scene">
-        <div id="house"></div>
+    <!-- TOP ANNOUNCEMENT / HIGHWAY STATUS STRIP -->
+    <div class="bg-dhaba-surface border-b border-dhaba-border text-xs sm:text-sm py-2 px-4">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2 text-dhaba-sand">
+                <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-emerald-950/90 text-emerald-300 border border-emerald-700/50">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    Open until 11:30 PM
+                </span>
+                <span class="hidden md:inline text-dhaba-muted">•</span>
+                <span class="hidden md:inline">NH 5, Gangapada, Khordha, Bhubaneswar, Odisha 752054</span>
+            </div>
+            <div class="flex items-center gap-4 ml-auto">
+                <span class="text-dhaba-gold font-semibold">₹1–₹200 per person</span>
+                <span class="text-dhaba-muted hidden sm:inline">|</span>
+                <a href="tel:09861310152" class="hidden sm:inline-flex items-center gap-1 text-dhaba-cream hover:text-dhaba-gold transition-colors font-medium">
+                    <svg class="w-3.5 h-3.5 text-dhaba-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                    098613 10152
+                </a>
+            </div>
+        </div>
     </div>
-</div>
 
-<!-- HUD (Top Left) -->
-<div class="absolute left-2 top-2 sm:left-4 sm:top-4 p-3 sm:p-4 bg-black/60 border border-cyan-400/50 rounded-xl backdrop-blur-md shadow-[0_0_15px_rgba(0,229,255,0.3)] z-10 pointer-events-none max-w-[65vw]">
-    <h1 class="m-0 text-sm sm:text-lg font-bold tracking-[0.3em] text-cyan-400 drop-shadow-[0_0_8px_#00e5ff]">NEO·HOME</h1>
-    <p class="m-0 mt-1 sm:mt-2 text-[9px] sm:text-[11px] text-cyan-100/75 tracking-wider leading-relaxed">
-        3 ROOMS · 2 BATH · KITCHEN · LOBBY<br class="hidden sm:block">
-        DRAG = ROTATE · WHEEL/PINCH = ZOOM
-    </p>
-</div>
+    <!-- STICKY NAVIGATION HEADER -->
+    <header id="navbar" class="sticky top-0 z-40 glass-nav border-b border-dhaba-border/80 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Brand Logo -->
+                <a href="#home" class="flex items-center gap-3 group focus:outline-none">
+                    <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-dhaba-gold to-dhaba-terracotta flex items-center justify-center shadow-glow group-hover:scale-105 transition-transform">
+                        <!-- Custom Clay Pot / Flame SVG Icon -->
+                        <svg class="w-6 h-6 text-dhaba-bg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C9.5 5 8 7.5 8 10.2C8 12.6 9.8 14.5 12 14.5C14.2 14.5 16 12.6 16 10.2C16 7.5 14.5 5 12 2ZM12 12.5C10.9 12.5 10 11.6 10 10.4C10 9.1 10.9 7.6 12 6.1C13.1 7.6 14 9.1 14 10.4C14 11.6 13.1 12.5 12 12.5ZM5 16C5 15.4 5.4 15 6 15H18C18.6 15 19 15.4 19 16C19 18.8 16.5 21 13.5 21H10.5C7.5 21 5 18.8 5 16Z"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="block font-serif text-2xl sm:text-3xl font-bold tracking-tight text-dhaba-cream leading-none">
+                            Gangapada Dhaba
+                        </span>
+                        <span class="block text-[11px] uppercase tracking-widest text-dhaba-gold font-semibold mt-1">
+                            NH 5 Highway • Bhubaneswar
+                        </span>
+                    </div>
+                </a>
 
-<!-- Legend (Top Right - Hidden on very small screens) -->
-<div class="absolute right-4 top-4 hidden md:grid gap-2 p-3 bg-black/60 border border-cyan-400/50 rounded-xl backdrop-blur-md shadow-[0_0_15px_rgba(0,229,255,0.3)] text-[11px] tracking-wider text-cyan-100 z-10 pointer-events-none">
-    <span class="flex items-center"><i class="inline-block w-[18px] h-[6px] bg-[#4fd8ff] mr-2 shadow-[0_0_8px_#4fd8ff]"></i>Window</span>
-    <span class="flex items-center"><i class="inline-block w-[10px] h-[10px] border border-pink-500 rounded-tr-full mr-2"></i>Door & Swing</span>
-    <span class="flex items-center"><i class="inline-block w-[10px] h-[10px] border border-white rounded-full mr-2"></i>Exhaust Fan</span>
-</div>
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden lg:flex items-center gap-7 text-sm font-medium text-dhaba-sand">
+                    <a href="#home" class="hover:text-dhaba-gold transition-colors py-2">Home</a>
+                    <a href="#about" class="hover:text-dhaba-gold transition-colors py-2">About</a>
+                    <a href="#menu" class="hover:text-dhaba-gold transition-colors py-2">Menu</a>
+                    <a href="#gallery" class="hover:text-dhaba-gold transition-colors py-2">Gallery</a>
+                    <a href="#why-us" class="hover:text-dhaba-gold transition-colors py-2">Why Us</a>
+                    <a href="#location" class="hover:text-dhaba-gold transition-colors py-2">Location</a>
+                    <a href="#contact" class="hover:text-dhaba-gold transition-colors py-2">Contact</a>
+                </nav>
 
-<!-- Interaction Toolbar (Bottom Center - Responsive wrapping) -->
-<div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-wrap justify-center w-[95vw] sm:w-max max-w-2xl gap-2 p-2 bg-black/60 border border-cyan-400/40 rounded-xl backdrop-blur-md shadow-[0_0_20px_rgba(0,229,255,0.15)] z-10">
-    <button id="bWall" class="px-3 py-2 text-[10px] sm:text-xs font-semibold tracking-[0.12em] uppercase text-cyan-100 bg-transparent border border-cyan-500/50 rounded-lg transition-all hover:bg-cyan-500/20 active:scale-95">Walls: Full</button>
-    <button id="bLbl" class="btn-on px-3 py-2 text-[10px] sm:text-xs font-semibold tracking-[0.12em] uppercase text-cyan-100 bg-transparent border border-cyan-500/50 rounded-lg transition-all hover:bg-cyan-500/20 active:scale-95">Labels</button>
-    <button id="bAuto" class="btn-on px-3 py-2 text-[10px] sm:text-xs font-semibold tracking-[0.12em] uppercase text-cyan-100 bg-transparent border border-cyan-500/50 rounded-lg transition-all hover:bg-cyan-500/20 active:scale-95">Auto-Spin</button>
-    <button id="bTop" class="px-3 py-2 text-[10px] sm:text-xs font-semibold tracking-[0.12em] uppercase text-cyan-100 bg-transparent border border-cyan-500/50 rounded-lg transition-all hover:bg-cyan-500/20 active:scale-95">Top View</button>
-    <button id="bIso" class="px-3 py-2 text-[10px] sm:text-xs font-semibold tracking-[0.12em] uppercase text-cyan-100 bg-transparent border border-cyan-500/50 rounded-lg transition-all hover:bg-cyan-500/20 active:scale-95">Iso View</button>
-    <button id="bDec" class="btn-on px-3 py-2 text-[10px] sm:text-xs font-semibold tracking-[0.12em] uppercase text-cyan-100 bg-transparent border border-cyan-500/50 rounded-lg transition-all hover:bg-cyan-500/20 active:scale-95">Decor</button>
-</div>
+                <!-- Desktop Conversion CTAs -->
+                <div class="hidden lg:flex items-center gap-3">
+                    <a href="tel:09861310152" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-dhaba-gold/50 text-dhaba-cream hover:bg-dhaba-gold/15 hover:border-dhaba-gold text-sm font-semibold transition-all">
+                        <svg class="w-4 h-4 text-dhaba-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                        Call Now
+                    </a>
+                    <a href="https://maps.google.com/?cid=4461194145462844940" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-dhaba-gold to-dhaba-terracotta text-dhaba-bg font-bold text-sm shadow-glow hover:brightness-110 transition-all">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                        Get Directions
+                    </a>
+                </div>
 
-<script>
-const H = document.getElementById('house');
-const S = document.getElementById('scene');
-const V = document.getElementById('view');
+                <!-- Mobile Quick Action + Hamburger Button -->
+                <div class="flex items-center gap-2 lg:hidden">
+                    <a href="https://maps.google.com/?cid=4461194145462844940" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-dhaba-gold text-dhaba-bg font-bold text-xs shadow-md">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>
+                        Directions
+                    </a>
+                    <button id="mobile-menu-btn" type="button" aria-label="Open Navigation Menu" class="p-2.5 rounded-xl bg-dhaba-card border border-dhaba-border text-dhaba-cream hover:text-dhaba-gold focus:outline-none">
+                        <svg id="hamburger-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                        <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
 
-// Constants
-const AC = '#00e5ff';
-const AC2 = '#ff2bd6';
+        <!-- Mobile Slide-Down Drawer -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-dhaba-surface border-b border-dhaba-border px-4 pt-3 pb-6 space-y-3">
+            <div class="grid grid-cols-2 gap-2 pt-1">
+                <a href="#home" class="mobile-nav-link px-3 py-2.5 rounded-lg bg-dhaba-card/70 text-dhaba-cream font-medium text-sm hover:bg-dhaba-gold/20">Home</a>
+                <a href="#about" class="mobile-nav-link px-3 py-2.5 rounded-lg bg-dhaba-card/70 text-dhaba-cream font-medium text-sm hover:bg-dhaba-gold/20">About Us</a>
+                <a href="#menu" class="mobile-nav-link px-3 py-2.5 rounded-lg bg-dhaba-card/70 text-dhaba-cream font-medium text-sm hover:bg-dhaba-gold/20">Menu Preview</a>
+                <a href="#gallery" class="mobile-nav-link px-3 py-2.5 rounded-lg bg-dhaba-card/70 text-dhaba-cream font-medium text-sm hover:bg-dhaba-gold/20">Photo Gallery</a>
+                <a href="#why-us" class="mobile-nav-link px-3 py-2.5 rounded-lg bg-dhaba-card/70 text-dhaba-cream font-medium text-sm hover:bg-dhaba-gold/20">Why Choose Us</a>
+                <a href="#location" class="mobile-nav-link px-3 py-2.5 rounded-lg bg-dhaba-card/70 text-dhaba-cream font-medium text-sm hover:bg-dhaba-gold/20">NH 5 Location</a>
+            </div>
+            <div class="pt-2 flex flex-col sm:flex-row gap-2.5">
+                <a href="https://maps.google.com/?cid=4461194145462844940" target="_blank" rel="noopener noreferrer" class="w-full py-3 rounded-xl bg-gradient-to-r from-dhaba-gold to-dhaba-terracotta text-dhaba-bg font-bold text-center text-sm flex items-center justify-center gap-2 shadow-glow">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>
+                    Get Directions on Google Maps
+                </a>
+                <a href="tel:09861310152" class="w-full py-3 rounded-xl border border-dhaba-gold/60 text-dhaba-cream font-bold text-center text-sm flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4 text-dhaba-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                    Call 098613 10152
+                </a>
+            </div>
+        </div>
+    </header>
 
-// State Variables
-let decor = true;
-let wm = 0; // Wall mode (0: Full, 1: Low, 2: Off)
-let showLbl = true;
-let auto = true;
-let labels = [];
+    <!-- HERO SECTION -->
+    <section id="home" class="relative min-h-[86vh] flex items-center overflow-hidden">
+        <!-- High-Impact Dhaba Feast Background Image with Fallback -->
+        <div class="absolute inset-0 z-0">
+            <img 
+                src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&w=1920&q=85" 
+                alt="Authentic Indian Dhaba Curry and Tandoori Feast at Gangapada Dhaba" 
+                class="w-full h-full object-cover object-center scale-105 transform transition-transform duration-1000"
+                onerror="this.src='https://placehold.co/1920x1080/1C1714/E89830?text=Gangapada+Dhaba+NH5+Bhubaneswar'"
+            />
+            <!-- Multi-layer Cinematic Gradient Overlays for Legibility -->
+            <div class="absolute inset-0 bg-gradient-to-r from-[#13100E] via-[#13100E]/90 to-[#13100E]/45"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-[#13100E] via-transparent to-[#13100E]/60"></div>
+        </div>
 
-// High-Performance Smooth Animation Targets (Lerp variables)
-let rx = 56, targetRx = 56;
-let rz = -35, targetRz = -35;
-let zoom = 1, targetZoom = 1;
+        <!-- Hero Content Container -->
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 w-full">
+            <div class="grid lg:grid-cols-12 gap-10 items-center">
+                
+                <!-- Left Column: Main Headline & Conversion CTAs -->
+                <div class="lg:col-span-7 space-y-6">
+                    <!-- Location & Rating Pill -->
+                    <div class="inline-flex flex-wrap items-center gap-2.5 px-4 py-1.5 rounded-full glass-card text-xs sm:text-sm font-medium text-dhaba-sand">
+                        <span class="flex items-center gap-1 text-dhaba-gold font-bold">
+                            3.8 ⭐ <span class="text-dhaba-cream font-normal">(496+ Reviews)</span>
+                        </span>
+                        <span class="text-dhaba-muted">•</span>
+                        <span class="text-dhaba-cream">NH 5 Highway Stop, Gangapada</span>
+                    </div>
 
-// Use Document Fragment to batch DOM insertions for ultra-fast creation
-let currentFragment = null;
+                    <!-- Required Primary Headline -->
+                    <h1 class="font-serif text-4xl sm:text-6xl lg:text-7xl font-bold text-dhaba-cream leading-[1.08] tracking-tight">
+                        Authentic Flavours. <br class="hidden sm:inline" />
+                        <span class="text-transparent bg-clip-text bg-gradient-to-r from-dhaba-gold via-amber-300 to-dhaba-terracotta">
+                            Straight From the Heart of the Dhaba.
+                        </span>
+                    </h1>
 
-// Helper: 3D Box Generation
-function box(x, y, w, d, h, col, o = {}) {
-    const e = document.createElement('div');
-    e.style.left = x + 'px'; e.style.top = y + 'px';
-    e.style.width = w + 'px'; e.style.height = d + 'px';
-    if(o.z) e.style.transform = `translateZ(${o.z}px)`;
-    
-    const face = (st, br) => {
-        const f = document.createElement('div');
-        f.style.background = col;
-        f.style.filter = `brightness(${br})`;
-        Object.assign(f.style, st);
-        e.appendChild(f);
-    };
-    
-    face({left: 0, top: 0, width: w + 'px', height: d + 'px', transform: `translateZ(${h}px)`, boxShadow: o.glow ? `inset 0 0 0 1px ${o.glow}, 0 0 12px ${o.glow}` : 'none'}, 1.15);
-    face({left: 0, top: d + 'px', width: w + 'px', height: h + 'px', transformOrigin: 'top', transform: 'rotateX(90deg)'}, 0.85);
-    face({left: 0, top: 0, width: w + 'px', height: h + 'px', transformOrigin: 'top', transform: 'rotateX(90deg)'}, 0.6);
-    face({left: 0, top: 0, width: h + 'px', height: d + 'px', transformOrigin: 'left', transform: 'rotateY(-90deg)'}, 0.7);
-    face({left: w + 'px', top: 0, width: h + 'px', height: d + 'px', transformOrigin: 'left', transform: 'rotateY(-90deg)'}, 0.5);
-    
-    currentFragment.appendChild(e);
-    return e;
-}
+                    <!-- Required Subheadline -->
+                    <p class="text-base sm:text-xl text-dhaba-sand max-w-2xl leading-relaxed font-normal">
+                        Good food, generous portions, and the true dhaba experience on NH 5, Gangapada. Whether you're commuting between Bhubaneswar and Khordha or dining out with family, a hot, freshly cooked meal awaits.
+                    </p>
 
-// Helper: Flat Pad
-function pad(x, y, w, d, bg) {
-    const p = document.createElement('div');
-    p.className = 'pad';
-    p.style.left = x + 'px'; p.style.top = y + 'px';
-    p.style.width = w + 'px'; p.style.height = d + 'px';
-    p.style.background = bg;
-    currentFragment.appendChild(p);
-}
+                    <!-- Primary & Secondary CTA Buttons -->
+                    <div class="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+                        <a href="https://maps.google.com/?cid=4461194145462844940" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-dhaba-gold to-dhaba-terracotta text-dhaba-bg font-extrabold text-base sm:text-lg shadow-glow hover:scale-[1.02] active:scale-[0.99] transition-all">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                            Get Directions
+                        </a>
+                        <a href="tel:09861310152" class="inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl glass-card hover:bg-dhaba-card border border-dhaba-gold/50 text-dhaba-cream font-bold text-base sm:text-lg hover:border-dhaba-gold transition-all">
+                            <svg class="w-5 h-5 text-dhaba-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                            Call Now
+                        </a>
+                        <a href="#menu" class="inline-flex items-center justify-center gap-2 px-5 py-4 rounded-2xl text-dhaba-sand hover:text-dhaba-gold font-semibold text-sm sm:text-base transition-colors">
+                            Explore Menu
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </a>
+                    </div>
 
-// Helper: 3D Floating Label
-function label(t, x, y, z, c) {
-    const l = document.createElement('div');
-    l.className = 'lbl';
-    l.textContent = t;
-    l.style.color = c;
-    l.style.left = x + 'px';
-    l.style.top = y + 'px';
-    l.dataset.z = z;
-    l.style.display = showLbl ? 'block' : 'none';
-    currentFragment.appendChild(l);
-    labels.push(l);
-}
+                    <!-- Required Small Trust Line -->
+                    <div class="pt-3 flex flex-wrap items-center gap-x-3 gap-y-2 text-xs sm:text-sm font-semibold text-dhaba-sand/90 border-t border-dhaba-border/80 max-w-xl">
+                        <span class="inline-flex items-center gap-1.5 text-dhaba-gold">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                            ₹1–₹200 per person
+                        </span>
+                        <span>•</span>
+                        <span>Dine-in</span>
+                        <span>•</span>
+                        <span>Drive-through</span>
+                        <span>•</span>
+                        <span>Delivery</span>
+                    </div>
+                </div>
 
-// Helper: Arching Door swing
-function door(hx, hy, r, a0, sw) {
-    const a1 = a0 + sw, R = Math.PI / 180;
-    const p = a => [(r * Math.cos(a * R)).toFixed(1), (r * Math.sin(a * R)).toFixed(1)];
-    const [x0, y0] = p(a0), [x1, y1] = p(a1);
-    
-    const d = document.createElement('div');
-    d.style.cssText = `left:${hx}px;top:${hy}px;width:1px;height:1px;transform:translateZ(8px)`;
-    d.innerHTML = `<svg style="position:absolute;left:0;top:0;overflow:visible" width="1" height="1"><path d="M0 0 L${x0} ${y0} A${r} ${r} 0 0 ${sw > 0 ? 1 : 0} ${x1} ${y1} Z" fill="rgba(255,43,214,.12)" stroke="${AC2}" stroke-width="1.5" stroke-dasharray="4 3"/></svg>`;
-    currentFragment.appendChild(d);
-    
-    const l = box(hx, hy - 1.5, r, 3, 68, '#c98b4a', {glow: AC2});
-    l.style.transformOrigin = '0 50%';
-    l.style.transform = `rotateZ(${a1}deg)`;
-}
+                <!-- Right Column: Featured Highway Stop Info Card -->
+                <div class="lg:col-span-5">
+                    <div class="glass-card rounded-3xl p-6 sm:p-8 shadow-card relative overflow-hidden">
+                        <div class="absolute -top-12 -right-12 w-36 h-36 bg-dhaba-gold/15 rounded-full blur-2xl pointer-events-none"></div>
+                        
+                        <div class="flex items-center justify-between gap-4 pb-5 border-b border-dhaba-border">
+                            <div>
+                                <span class="text-xs uppercase tracking-widest text-dhaba-gold font-bold">Direct Highway Stop</span>
+                                <h2 class="font-serif text-2xl font-bold text-dhaba-cream mt-0.5">Visiting Us Today?</h2>
+                            </div>
+                            <span class="px-3 py-1 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-700/60 text-xs font-bold">
+                                Open Now
+                            </span>
+                        </div>
 
-// Helper: Generic div
-function div(css, cls) {
-    const d = document.createElement('div');
-    d.style.cssText = css;
-    if(cls) d.className = cls;
-    currentFragment.appendChild(d);
-    return d;
-}
+                        <div class="space-y-4 my-5 text-sm">
+                            <div class="flex items-start gap-3.5">
+                                <div class="w-9 h-9 rounded-xl bg-dhaba-gold/15 text-dhaba-gold flex items-center justify-center shrink-0 mt-0.5">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-dhaba-cream">Address</p>
+                                    <p class="text-dhaba-sand mt-0.5">NH 5, Gangapada, Khordha, Bhubaneswar, Odisha 752054</p>
+                                </div>
+                            </div>
 
-// Helper: Glowing floor pad
-function glowPad(x, y, w, d, c, z = 9, bg) {
-    div(`left:${x}px;top:${y}px;width:${w}px;height:${d}px;background:${bg || c};box-shadow:0 0 12px ${c};transform:translateZ(${z}px)`);
-}
+                            <div class="flex items-start gap-3.5">
+                                <div class="w-9 h-9 rounded-xl bg-dhaba-gold/15 text-dhaba-gold flex items-center justify-center shrink-0 mt-0.5">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-dhaba-cream">Opening Hours</p>
+                                    <p class="text-dhaba-sand mt-0.5">Open daily • Closes at <strong class="text-dhaba-gold">11:30 PM</strong></p>
+                                </div>
+                            </div>
 
-// Helper: Complex Bed Structure
-function bed(x, y, blanket) {
-    box(x - 4, y - 4, 78, 6, 44, '#22313f', {glow: AC});
-    box(x, y, 70, 96, 10, '#141c26', {glow: AC});
-    box(x + 3, y + 4, 64, 88, 16, '#e4edf2');
-    box(x + 3, y + 46, 64, 46, 19, blanket);
-    box(x + 7, y + 8, 26, 14, 22, '#c7d7e2');
-    box(x + 37, y + 8, 26, 14, 22, '#c7d7e2');
-    box(x - 24, y, 14, 14, 16, '#141c26', {glow: '#ffd27a'});
-    box(x + 80, y, 14, 14, 16, '#141c26', {glow: '#ffd27a'});
-    glowPad(x - 10, y + 100, 90, 2, AC2, 9);
-}
+                            <div class="flex items-start gap-3.5">
+                                <div class="w-9 h-9 rounded-xl bg-dhaba-gold/15 text-dhaba-gold flex items-center justify-center shrink-0 mt-0.5">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-dhaba-cream">Pocket-Friendly Dining</p>
+                                    <p class="text-dhaba-sand mt-0.5">₹1–₹200 per person • Generous highway-style portions</p>
+                                </div>
+                            </div>
+                        </div>
 
-// Helper: Simple Plant
-function plant(x, y) {
-    box(x, y, 12, 12, 10, '#1a2430', {glow: AC});
-    box(x - 5, y - 5, 22, 22, 30, 'rgba(40,200,120,.85)', {z: 10});
-}
+                        <div class="pt-4 border-t border-dhaba-border flex items-center justify-between gap-3">
+                            <div>
+                                <span class="text-xs text-dhaba-muted block">Direct Phone Line</span>
+                                <a href="tel:09861310152" class="text-lg font-extrabold text-dhaba-gold hover:underline">098613 10152</a>
+                            </div>
+                            <a href="https://maps.google.com/?cid=4461194145462844940" target="_blank" rel="noopener noreferrer" class="px-4 py-2.5 rounded-xl bg-dhaba-card hover:bg-dhaba-gold hover:text-dhaba-bg text-dhaba-cream font-bold text-xs transition-colors border border-dhaba-border">
+                                Open in Maps →
+                            </a>
+                        </div>
+                    </div>
+                </div>
 
-function decorate() {
-    glowPad(230, 190, 2, 239, AC, 9); // Hallway line
-    glowPad(20, 299, 210, 2, AC, 9);  // Kitchen line
-    
-    // Scanline area
-    div(`left:30px;top:204px;width:130px;height:96px;border:1px solid ${AC2};background:rgba(255,43,214,.08);box-shadow:inset 0 0 20px rgba(255,43,214,.3);transform:translateZ(9px)`);
-    // Scanning beam
-    div('left:6px;top:8px;width:423px;height:3px;background:#ff2bd6;box-shadow:0 0 14px #ff2bd6,0 0 30px #ff2bd6;animation:scan 5s ease-in-out infinite alternate');
-    
-    // Furniture
-    bed(46, 24, '#0a6b53');
-    bed(310, 24, '#0a6b53');
-    bed(338, 286, '#1f5f8c');
-    box(10, 130, 20, 46, 64, '#1a2430', {glow: AC});
-    box(404, 126, 20, 50, 64, '#1a2430', {glow: AC});
-    box(398, 388, 26, 36, 64, '#1a2430', {glow: AC});
-    
-    // Washrooms
-    box(186, 10, 22, 10, 26, '#e9f1f7'); box(188, 20, 18, 20, 14, '#e9f1f7'); box(222, 8, 24, 16, 16, '#e9f1f7', {glow: AC});
-    box(222, 80, 22, 10, 26, '#e9f1f7'); box(224, 90, 18, 20, 14, '#e9f1f7'); box(182, 78, 24, 16, 16, '#e9f1f7', {glow: AC});
-    box(182, 118, 34, 50, 66, 'rgba(79,216,255,.28)', {glow: '#4fd8ff'}); // Shower
-    
-    // Kitchen
-    box(8, 400, 138, 26, 24, '#0b0d12', {glow: AC});
-    box(8, 322, 26, 78, 24, '#0b0d12', {glow: AC});
-    box(70, 350, 50, 24, 22, '#0b0d12', {glow: AC2});
-    box(40, 404, 22, 18, 2, '#222', {glow: AC2, z: 24});
-    box(150, 394, 28, 32, 58, '#aab8c4', {glow: AC}); // Fridge
-    
-    // Lobby
-    box(8, 214, 5, 76, 48, '#02060a', {glow: AC, z: 18}); // TV
-    box(84, 214, 28, 76, 22, '#243447', {glow: AC});      // Sofa base
-    box(110, 214, 6, 76, 40, '#243447', {glow: AC});      // Sofa back
-    box(46, 236, 26, 34, 12, 'rgba(79,216,255,.35)', {glow: AC}); // Coffee table
-    
-    // Holo setup
-    box(200, 246, 22, 22, 10, '#141c26', {glow: AC2});
-    div(`left:180px;top:226px;width:62px;height:62px;border:2px dashed ${AC};border-radius:50%;box-shadow:0 0 14px ${AC};animation:spin 6s linear infinite`);
-    div(`left:186px;top:232px;width:50px;height:50px;border:2px solid ${AC2};border-radius:50%;box-shadow:0 0 12px ${AC2};animation:spin2 5s linear infinite`);
-    div(`left:206px;top:252px;width:10px;height:10px;border-radius:50%;background:#fff;box-shadow:0 0 16px 6px ${AC};animation:bob 3s ease-in-out infinite`);
-    
-    plant(14, 330); plant(268, 312); plant(272, 196); plant(416, 238);
-    
-    // Corner Pylons
-    [[-16, -16], [443, -16], [-16, 443], [443, 443]].forEach(p => {
-        box(p[0], p[1], 8, 8, 130, 'rgba(0,229,255,.3)', {glow: AC});
-        div(`left:${p[0]-2}px;top:${p[1]-2}px;width:12px;height:12px;border-radius:50%;background:${AC2};box-shadow:0 0 16px 4px ${AC2};transform:translateZ(134px);animation:pulse 2s infinite`);
-    });
-    
-    label('◈ Smart Home Online', 215, 215, 120, AC2);
-}
+            </div>
+        </div>
+    </section>
 
-// Master Build Function
-function build() {
-    currentFragment = document.createDocumentFragment();
-    labels = [];
-    
-    const wh = [90, 24, 0][wm];
-    
-    // Base foundation
-    box(-10, -10, 455, 455, 6, '#0d1420', {glow: AC});
-    pad(6, 6, 423, 423, '#161a20 linear-gradient(rgba(0,229,255,.07) 1px,transparent 1px) 0 0/21px 21px');
-    
-    const g = 'linear-gradient(135deg,#0a5a47,#053f33)';
-    const br = 'linear-gradient(135deg,#7a440a,#5a3007)';
-    [[6, 6, 165, 175, g], [256, 6, 173, 175, g], [177, 6, 73, 62, br], [177, 74, 73, 107, br], [6, 316, 176, 113, br], [293, 271, 136, 158, g]].forEach(r => {
-        pad(...r); 
-        currentFragment.lastChild.style.transform = 'translateZ(8px)';
-    });
-    
-    // Walls
-    if(wh > 0) {
-        [[0,0,435,6],[0,0,6,435],[429,0,6,185],[429,210,6,225],[0,429,213,6],[250,429,185,6],
-         [171,0,6,187],[0,181,102,6],[125,181,52,6],[177,181,26,6],[226,181,27,6],[250,181,17,6],[291,181,144,6],
-         [250,0,6,31],[250,51,6,136],[177,68,76,6],
-         [0,310,133,6],[155,310,33,6],[182,310,6,125],[287,265,6,43],[287,330,6,105],[290,265,145,6]]
-         .forEach(w => box(...w, wh, '#dfe9ee', {glow: AC}));
-         
-        // Windows
-        [[72,-1,29,8],[336,-1,29,8],[99,428,28,8],[349,428,28,8],[-1,100,8,28],[-1,248,8,28],[-1,363,8,28],[428,80,8,28],[428,324,8,28]]
-         .forEach(w => box(...w, 34, 'rgba(79,216,255,.7)', {glow: '#4fd8ff', z: 26}));
-         
-        // Exhaust
-        const fan = document.createElement('div');
-        fan.style.cssText = 'left:207px;top:-2px;width:14px;height:14px;border:2px solid #fff;border-radius:50%;box-shadow:0 0 10px #fff;transform:translateZ(66px) rotateX(90deg)';
-        currentFragment.appendChild(fan);
-    }
-    
-    // Doors
-    [[102,184,23,0,-90],[203,184,23,0,-90],[291,184,24,180,90],[253,31,21,90,90],[155,313,22,180,-90],[290,308,22,90,-90],[213,435,37,0,-90],[435,185,25,90,90]].forEach(d => door(...d));
-    
-    // Stairs
-    for(let i=0; i<9; i++) box(295 + i*13.1, 225, 13.1, 38, 12 + i*7, '#26384d', {glow: i % 2 ? null : AC});
-    
-    if(decor) decorate();
-    
-    // Labels
-    label('Room 1', 88, 93, 50, '#6cf0c8'); label('Room 2', 344, 93, 50, '#6cf0c8'); label('Room 3', 365, 366, 50, '#6cf0c8');
-    label('Washroom 2', 214, 36, 40, '#ffb347'); label('Washroom 1', 214, 126, 40, '#ffb347'); label('Kitchen', 94, 372, 40, '#ffb347');
-    label('Lobby', 140, 225, 30, '#fff'); label('Stairs to terrace', 355, 205, 80, '#fff'); label('Main door', 233, 458, 10, '#fff'); label('Exhaust fan', 214, -12, 70, '#fff');
-    
-    // Append in one go for fast render
-    H.innerHTML = '';
-    H.appendChild(currentFragment);
-}
+    <div class="dhaba-pattern-divider"></div>
 
-let lastTime = performance.now();
+    <!-- TRUST & SOCIAL PROOF SECTION -->
+    <section class="py-16 bg-dhaba-surface warm-ambient-bg border-b border-dhaba-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Rating Summary Banner -->
+            <div class="glass-card rounded-3xl p-6 sm:p-8 mb-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+                <div class="flex flex-col sm:flex-row sm:items-center gap-5">
+                    <div class="px-6 py-4 rounded-2xl bg-dhaba-bg border border-dhaba-gold/40 text-center shrink-0">
+                        <div class="text-3xl sm:text-4xl font-extrabold text-dhaba-gold tracking-tight">3.8 ⭐</div>
+                        <div class="text-xs uppercase tracking-wider text-dhaba-sand mt-1 font-semibold">496+ Reviews</div>
+                    </div>
+                    <div>
+                        <div class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-dhaba-gold mb-1">
+                            <span>Trusted Highway Stop on NH 5</span>
+                        </div>
+                        <h2 class="font-serif text-2xl sm:text-3xl font-bold text-dhaba-cream">
+                            Loved by Daily Commuters, Families & Highway Travellers
+                        </h2>
+                        <p class="text-sm text-dhaba-sand mt-1 max-w-2xl">
+                            Rated 3.8 stars across 496+ Google reviews for our pocket-friendly ₹1–₹200 meals, quick service on NH 5 Gangapada, and hearty dhaba taste.
+                        </p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3 w-full lg:w-auto">
+                    <a href="https://maps.google.com/?cid=4461194145462844940" target="_blank" rel="noopener noreferrer" class="w-full lg:w-auto text-center px-5 py-3 rounded-xl bg-dhaba-card hover:bg-dhaba-gold hover:text-dhaba-bg border border-dhaba-gold/40 text-dhaba-cream font-bold text-sm transition-all">
+                        View on Google Maps
+                    </a>
+                </div>
+            </div>
 
-// Updates the exact CSS styles
-function updateTransforms() {
-    S.style.transform = `scale(${zoom}) rotateX(${rx}deg) rotateZ(${rz}deg)`;
-    for(let i=0; i<labels.length; i++){
-        labels[i].style.transform = `translateZ(${labels[i].dataset.z}px) rotateZ(${-rz}deg) rotateX(${-rx}deg) translate(-50%,-50%)`;
-    }
-}
+            <!-- Transparency Notice for Placeholder Review Cards -->
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-6">
+                <h3 class="text-sm font-bold uppercase tracking-wider text-dhaba-sand">
+                    Guest Experience Highlights
+                </h3>
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-950/80 border border-dhaba-gold/40 text-amber-200 text-xs font-medium">
+                    <svg class="w-3.5 h-3.5 text-dhaba-gold shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    Sample Demo Review Cards (Editable placeholder layout for verified customer quotes)
+                </span>
+            </div>
 
-// 120 FPS Loop Engine with Lerp (Linear Interpolation)
-function loop(now) {
-    const dt = now - lastTime;
-    lastTime = now;
-    
-    // Speed factor to normalize rotation speed regardless of frame rate (60Hz vs 120Hz)
-    const speedFactor = dt / 16.666; // 1 at 60fps, 0.5 at 120fps
-    
-    if (auto) {
-        targetRz += 0.15 * speedFactor; // Constant spin speed
-    }
-    
-    // Smooth Lerp physics for incredibly fluid dragging and zooming
-    // Difference between target and current multiplied by easing factor
-    rx += (targetRx - rx) * 0.12 * speedFactor;
-    rz += (targetRz - rz) * 0.12 * speedFactor;
-    zoom += (targetZoom - zoom) * 0.15 * speedFactor;
+            <!-- 3 Clearly Labeled Placeholder Review Cards -->
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Card 1 -->
+                <div class="bg-dhaba-card rounded-2xl p-6 border border-dhaba-border flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between gap-2 mb-3">
+                            <span class="text-dhaba-gold text-sm font-bold">★★★★☆</span>
+                            <span class="text-[11px] uppercase tracking-wider px-2 py-0.5 rounded bg-dhaba-surface text-dhaba-muted border border-dhaba-border">Demo Placeholder</span>
+                        </div>
+                        <p class="text-dhaba-sand text-sm leading-relaxed italic owner-editable" contenteditable="false">
+                            "Sample review preview: Convenient highway stop right on NH 5 near Gangapada. Hot rotis, flavourful tadka, and very reasonable pricing under ₹200 per person."
+                        </p>
+                    </div>
+                    <div class="mt-5 pt-4 border-t border-dhaba-border/70 flex items-center justify-between text-xs">
+                        <span class="font-bold text-dhaba-cream owner-editable" contenteditable="false">NH 5 Highway Traveller</span>
+                        <span class="text-dhaba-muted">Dine-in Guest (Sample)</span>
+                    </div>
+                </div>
 
-    // Only update DOM if things have actually changed (threshold check prevents micro-jitter)
-    if(Math.abs(targetRx - rx) > 0.01 || Math.abs(targetRz - rz) > 0.01 || Math.abs(targetZoom - zoom) > 0.001 || auto) {
-        updateTransforms();
-    }
-    
-    requestAnimationFrame(loop);
-}
+                <!-- Card 2 -->
+                <div class="bg-dhaba-card rounded-2xl p-6 border border-dhaba-border flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between gap-2 mb-3">
+                            <span class="text-dhaba-gold text-sm font-bold">★★★★☆</span>
+                            <span class="text-[11px] uppercase tracking-wider px-2 py-0.5 rounded bg-dhaba-surface text-dhaba-muted border border-dhaba-border">Demo Placeholder</span>
+                        </div>
+                        <p class="text-dhaba-sand text-sm leading-relaxed italic owner-editable" contenteditable="false">
+                            "Sample review preview: Great spot for a quick lunch or late dinner while driving between Khordha and Bhubaneswar. Generous portions and fast service."
+                        </p>
+                    </div>
+                    <div class="mt-5 pt-4 border-t border-dhaba-border/70 flex items-center justify-between text-xs">
+                        <span class="font-bold text-dhaba-cream owner-editable" contenteditable="false">Local Commuter</span>
+                        <span class="text-dhaba-muted">Drive-through / Takeaway (Sample)</span>
+                    </div>
+                </div>
 
-let drag = null, pts = {}, pd = 0;
+                <!-- Card 3 -->
+                <div class="bg-dhaba-card rounded-2xl p-6 border border-dhaba-border flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between gap-2 mb-3">
+                            <span class="text-dhaba-gold text-sm font-bold">★★★★☆</span>
+                            <span class="text-[11px] uppercase tracking-wider px-2 py-0.5 rounded bg-dhaba-surface text-dhaba-muted border border-dhaba-border">Demo Placeholder</span>
+                        </div>
+                        <p class="text-dhaba-sand text-sm leading-relaxed italic owner-editable" contenteditable="false">
+                            "Sample review preview: Authentic smoky tandoor and rich Indian gravies without burning a hole in your pocket. Open late till 11:30 PM which is super helpful."
+                        </p>
+                    </div>
+                    <div class="mt-5 pt-4 border-t border-dhaba-border/70 flex items-center justify-between text-xs">
+                        <span class="font-bold text-dhaba-cream owner-editable" contenteditable="false">Family Diner</span>
+                        <span class="text-dhaba-muted">Evening Dinner (Sample)</span>
+                    </div>
+                </div>
+            </div>
 
-V.addEventListener('pointerdown', e => {
-    V.setPointerCapture(e.pointerId);
-    pts[e.pointerId] = e;
-    drag = { x: e.clientX, y: e.clientY };
-    auto = false;
-    document.getElementById('bAuto').classList.remove('btn-on');
-});
+        </div>
+    </section>
 
-V.addEventListener('pointermove', e => {
-    pts[e.pointerId] = e;
-    const k = Object.values(pts);
-    
-    // Pinch to Zoom (Multi-touch)
-    if (k.length === 2) {
-        const d = Math.hypot(k[0].clientX - k[1].clientX, k[0].clientY - k[1].clientY);
-        if (pd) targetZoom = Math.min(3.5, Math.max(0.2, targetZoom * (d / pd)));
-        pd = d;
-        return;
-    }
-    
-    // Drag to Rotate
-    if (!drag || !pts[e.pointerId]) return;
-    
-    // Apply delta to targets (Lerp loop handles the rest)
-    targetRz += (e.clientX - drag.x) * 0.4;
-    targetRx = Math.min(90, Math.max(0, targetRx - (e.clientY - drag.y) * 0.3));
-    
-    drag = { x: e.clientX, y: e.clientY };
-});
+    <!-- ABOUT SECTION -->
+    <section id="about" class="py-20 lg:py-28 bg-dhaba-bg relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-12 gap-12 items-center">
+                
+                <!-- Left Image Collage -->
+                <div class="lg:col-span-6 relative">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="space-y-4">
+                            <img 
+                                src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=800&q=80" 
+                                alt="Traditional Indian Dhaba Thali and Curries" 
+                                class="w-full h-64 object-cover rounded-2xl border border-dhaba-border shadow-card"
+                                onerror="this.src='https://placehold.co/600x500/241E1A/E89830?text=Authentic+Dhaba+Meals'"
+                            />
+                            <div class="bg-dhaba-card p-5 rounded-2xl border border-dhaba-gold/30">
+                                <p class="font-serif text-3xl font-bold text-dhaba-gold">₹1–₹200</p>
+                                <p class="text-xs text-dhaba-sand mt-1">Honest, everyday pricing per person with hearty portions.</p>
+                            </div>
+                        </div>
+                        <div class="space-y-4 pt-8">
+                            <div class="bg-gradient-to-br from-dhaba-gold to-dhaba-terracotta p-5 rounded-2xl text-dhaba-bg font-bold">
+                                <p class="text-xs uppercase tracking-widest opacity-90">NH 5 Highway</p>
+                                <p class="font-serif text-2xl font-extrabold mt-0.5">Open till 11:30 PM</p>
+                            </div>
+                            <img 
+                                src="https://images.unsplash.com/photo-1631452180519-c014fe946bc7?auto=format&fit=crop&w=800&q=80" 
+                                alt="Rich Paneer and Masala Gravy at Gangapada Dhaba" 
+                                class="w-full h-64 object-cover rounded-2xl border border-dhaba-border shadow-card"
+                                onerror="this.src='https://placehold.co/600x500/241E1A/E89830?text=Fresh+Tandoor+and+Tadka'"
+                            />
+                        </div>
+                    </div>
+                </div>
 
-const up = e => { delete pts[e.pointerId]; pd = 0; drag = null; };
-V.addEventListener('pointerup', up);
-V.addEventListener('pointercancel', up);
+                <!-- Right Story & Local Copy -->
+                <div class="lg:col-span-6 space-y-6">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-dhaba-gold/15 border border-dhaba-gold/30 text-dhaba-gold text-xs font-bold uppercase tracking-widest">
+                        Real Highway Hospitality
+                    </div>
 
-// Mouse Wheel Zoom
-V.addEventListener('wheel', e => {
-    e.preventDefault();
-    targetZoom = Math.min(3.5, Math.max(0.2, targetZoom * (e.deltaY > 0 ? 0.85 : 1.15)));
-}, { passive: false });
+                    <h2 class="font-serif text-3xl sm:text-5xl font-bold text-dhaba-cream leading-tight">
+                        Where the Highway Meets Hearty, Home-Style Indian Food
+                    </h2>
 
-// Button Logic
-document.getElementById('bWall').onclick = function() {
-    wm = (wm + 1) % 3;
-    this.textContent = 'Walls: ' + ['Full', 'Low', 'Off'][wm];
-    build();
-};
-document.getElementById('bLbl').onclick = function() {
-    showLbl = !showLbl;
-    this.classList.toggle('btn-on', showLbl);
-    labels.forEach(l => l.style.display = showLbl ? 'block' : 'none');
-};
-document.getElementById('bAuto').onclick = function() {
-    auto = !auto;
-    this.classList.toggle('btn-on', auto);
-};
-document.getElementById('bDec').onclick = function() {
-    decor = !decor;
-    this.classList.toggle('btn-on', decor);
-    build();
-};
+                    <p class="text-dhaba-sand text-base sm:text-lg leading-relaxed">
+                        Located right along <strong class="text-dhaba-cream">NH 5 in Gangapada, between Bhubaneswar and Khordha</strong>, Gangapada Dhaba is built on a simple promise: serve Piping-hot, flavour-packed Indian meals that satisfy a real appetite without stretching your wallet.
+                    </p>
 
-const stopAuto = () => { auto = false; document.getElementById('bAuto').classList.remove('btn-on'); };
+                    <p class="text-dhaba-sand text-base leading-relaxed">
+                        Whether you are a long-distance highway traveller looking for a comfortable pit-stop, a college group craving late-evening tandoori rotis and smoky tadka, or a family out for a relaxed dinner, our kitchen serves generous portions made fresh to order.
+                    </p>
 
-document.getElementById('bTop').onclick = () => { stopAuto(); targetRx = 90; targetRz = 0; };
-document.getElementById('bIso').onclick = () => { stopAuto(); targetRx = 56; targetRz = -35; };
+                    <!-- Key Highlights Checklist -->
+                    <div class="grid sm:grid-cols-2 gap-3.5 pt-2">
+                        <div class="flex items-center gap-3 bg-dhaba-surface p-3.5 rounded-xl border border-dhaba-border">
+                            <span class="w-7 h-7 rounded-lg bg-dhaba-gold/20 text-dhaba-gold flex items-center justify-center font-bold">✓</span>
+                            <span class="text-sm font-semibold text-dhaba-cream">Authentic Dhaba Tadka & Masalas</span>
+                        </div>
+                        <div class="flex items-center gap-3 bg-dhaba-surface p-3.5 rounded-xl border border-dhaba-border">
+                            <span class="w-7 h-7 rounded-lg bg-dhaba-gold/20 text-dhaba-gold flex items-center justify-center font-bold">✓</span>
+                            <span class="text-sm font-semibold text-dhaba-cream">Affordable ₹1–₹200 Per Person</span>
+                        </div>
+                        <div class="flex items-center gap-3 bg-dhaba-surface p-3.5 rounded-xl border border-dhaba-border">
+                            <span class="w-7 h-7 rounded-lg bg-dhaba-gold/20 text-dhaba-gold flex items-center justify-center font-bold">✓</span>
+                            <span class="text-sm font-semibold text-dhaba-cream">Easy Pull-Over on NH 5 Highway</span>
+                        </div>
+                        <div class="flex items-center gap-3 bg-dhaba-surface p-3.5 rounded-xl border border-dhaba-border">
+                            <span class="w-7 h-7 rounded-lg bg-dhaba-gold/20 text-dhaba-gold flex items-center justify-center font-bold">✓</span>
+                            <span class="text-sm font-semibold text-dhaba-cream">Dine-in, Drive-through & Delivery</span>
+                        </div>
+                    </div>
 
-// Responsive Fitting
-function fit() {
-    // Calculates ideal zoom scale based on screen width/height to ensure the whole 3D model fits comfortably
-    const newZoom = Math.max(0.3, Math.min(window.innerWidth / 760, window.innerHeight / 720));
-    targetZoom = newZoom;
-    
-    // Force immediate sync for resize so it doesn't float sluggishly
-    zoom = targetZoom; 
-    updateTransforms();
-}
+                    <div class="pt-4 flex flex-wrap items-center gap-4">
+                        <a href="https://maps.google.com/?cid=4461194145462844940" target="_blank" rel="noopener noreferrer" class="px-7 py-3.5 rounded-xl bg-dhaba-gold hover:bg-dhaba-goldHover text-dhaba-bg font-bold text-sm shadow-glow transition-all">
+                            Stop By Today — Get Directions
+                        </a>
+                        <a href="tel:09861310152" class="px-6 py-3.5 rounded-xl border border-dhaba-border hover:border-dhaba-gold text-dhaba-cream font-semibold text-sm transition-all">
+                            Call 098613 10152
+                        </a>
+                    </div>
+                </div>
 
-// Initial Kick-off
-window.addEventListener('resize', fit);
-build();
-fit();
-requestAnimationFrame(loop); // Start the 120 FPS Loop
-</script>
+            </div>
+        </div>
+    </section>
+
+    <!-- SIGNATURE FOOD SHOWCASE & INTERACTIVE MENU PREVIEW -->
+    <section id="menu" class="py-20 lg:py-28 bg-dhaba-surface warm-ambient-bg border-y border-dhaba-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Section Header + Owner Edit Mode Switch -->
+            <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-dhaba-gold/15 border border-dhaba-gold/30 text-dhaba-gold text-xs font-bold uppercase tracking-widest mb-3">
+                        Signature Dhaba Showcase & Menu
+                    </div>
+                    <h2 class="font-serif text-3xl sm:text-5xl font-bold text-dhaba-cream">
+                        Hot Off the Tandoor & Kadhai
+                    </h2>
+                    <p class="text-dhaba-sand text-sm sm:text-base mt-2 max-w-2xl">
+                        Explore our popular dhaba categories below. Because daily specials and seasonal rates vary, dishes display <strong class="text-dhaba-gold">"Ask for price"</strong> (typically within <strong class="text-dhaba-cream">₹1–₹200 per person</strong>).
+                    </p>
+                </div>
+
+                <!-- Interactive Owner Edit Toggle so Restaurant Owner can customize prices/dishes live -->
+                <div class="bg-dhaba-card p-4 rounded-2xl border border-dhaba-gold/40 flex items-center justify-between sm:justify-start gap-4 shrink-0">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-dhaba-gold block">Restaurant Owner Tool</span>
+                        <span class="text-xs text-dhaba-sand">Click to edit dish names or prices live</span>
+                    </div>
+                    <button id="owner-edit-toggle" type="button" class="px-4 py-2 rounded-xl bg-dhaba-surface border border-dhaba-gold text-dhaba-gold hover:bg-dhaba-gold hover:text-dhaba-bg text-xs font-bold transition-all">
+                        Enable Edit Mode
+                    </button>
+                </div>
+            </div>
+
+            <!-- Category Tabs (Main Course, Biryani, Tandoor, Snacks, Breakfast, Beverages) -->
+            <div class="flex items-center gap-2 overflow-x-auto pb-4 mb-8 no-scrollbar" role="tablist">
+                <button type="button" data-category="all" class="menu-tab active-tab shrink-0 px-5 py-2.5 rounded-xl font-bold text-sm transition-all bg-dhaba-gold text-dhaba-bg shadow-glow">
+                    All Categories
+                </button>
+                <button type="button" data-category="Main Course" class="menu-tab shrink-0 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all bg-dhaba-card text-dhaba-sand hover:text-dhaba-cream border border-dhaba-border">
+                    🍛 Main Course
+                </button>
+                <button type="button" data-category="Biryani" class="menu-tab shrink-0 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all bg-dhaba-card text-dhaba-sand hover:text-dhaba-cream border border-dhaba-border">
+                    🍲 Biryani
+                </button>
+                <button type="button" data-category="Tandoor" class="menu-tab shrink-0 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all bg-dhaba-card text-dhaba-sand hover:text-dhaba-cream border border-dhaba-border">
+                    🔥 Tandoor
+                </button>
+                <button type="button" data-category="Snacks" class="menu-tab shrink-0 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all bg-dhaba-card text-dhaba-sand hover:text-dhaba-cream border border-dhaba-border">
+                    🥟 Snacks
+                </button>
+                <button type="button" data-category="Breakfast" class="menu-tab shrink-0 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all bg-dhaba-card text-dhaba-sand hover:text-dhaba-cream border border-dhaba-border">
+                    🫓 Breakfast
+                </button>
+                <button type="button" data-category="Beverages" class="menu-tab shrink-0 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all bg-dhaba-card text-dhaba-sand hover:text-dhaba-cream border border-dhaba-border">
+                    ☕ Beverages
+                </button>
+            </div>
+
+            <!-- Signature Food Cards Grid (Populated via JS for clean filtering & live owner editing) -->
+            <div id="food-showcase-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Populated dynamically by script below -->
+            </div>
+
+            <!-- Full Menu Preview CTA Banner -->
+            <div class="mt-12 glass-card rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="text-center md:text-left">
+                    <span class="text-xs font-bold uppercase tracking-widest text-dhaba-gold">Complete Categorized Menu</span>
+                    <h3 class="font-serif text-2xl sm:text-3xl font-bold text-dhaba-cream mt-1">
+                        Want to See Our Full Highway Menu Sheet?
+                    </h3>
+                    <p class="text-sm text-dhaba-sand mt-1">
+                        Browse all categories in a quick-read format or call us directly to check today's fresh specials.
+                    </p>
+                </div>
+                <div class="flex flex-wrap items-center justify-center gap-3 shrink-0">
+                    <button id="open-full-menu-btn" type="button" class="px-7 py-4 rounded-2xl bg-gradient-to-r from-dhaba-gold to-dhaba-terracotta text-dhaba-bg font-extrabold text-sm sm:text-base shadow-glow hover:scale-[1.02] transition-all">
+                        View Full Menu
+                    </button>
+                    <a href="tel:09861310152" class="px-6 py-4 rounded-2xl bg-dhaba-card border border-dhaba-gold/40 text-dhaba-cream hover:border-dhaba-gold font-bold text-sm sm:text-base transition-all">
+                        Call to Enquire
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US (6 FEATURE CARDS) -->
+    <section id="why-us" class="py-20 lg:py-28 bg-dhaba-bg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-14">
+                <span class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-dhaba-gold/15 border border-dhaba-gold/30 text-dhaba-gold text-xs font-bold uppercase tracking-widest">
+                    The Gangapada Dhaba Advantage
+                </span>
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-dhaba-cream mt-3">
+                    Why Travellers & Locals Stop Here Every Day
+                </h2>
+                <p class="text-dhaba-sand text-sm sm:text-base mt-3">
+                    Built for hungry highway commuters and Bhubaneswar families alike—combining speed, authentic spice, and unbeatable value.
+                </p>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Feature 1: Authentic Dhaba Taste -->
+                <div class="bg-dhaba-card hover:bg-dhaba-card/80 p-7 rounded-3xl border border-dhaba-border hover:border-dhaba-gold/50 transition-all group">
+                    <div class="w-12 h-12 rounded-2xl bg-dhaba-gold/15 text-dhaba-gold flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"/></svg>
+                    </div>
+                    <h3 class="font-serif text-2xl font-bold text-dhaba-cream">Authentic Dhaba Taste</h3>
+                    <p class="text-sm text-dhaba-sand mt-2 leading-relaxed">
+                        Slow-simmered gravies, smoky charcoal tandoor rotis, and freshly ground spices that capture classic Indian highway dhaba flavours.
+                    </p>
+                </div>
+
+                <!-- Feature 2: Affordable Prices -->
+                <div class="bg-dhaba-card hover:bg-dhaba-card/80 p-7 rounded-3xl border border-dhaba-border hover:border-dhaba-gold/50 transition-all group">
+                    <div class="w-12 h-12 rounded-2xl bg-dhaba-gold/15 text-dhaba-gold flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </div>
+                    <h3 class="font-serif text-2xl font-bold text-dhaba-cream">Affordable Prices</h3>
+                    <p class="text-sm text-dhaba-sand mt-2 leading-relaxed">
+                        With meals averaging <strong class="text-dhaba-gold">₹1–₹200 per person</strong>, you enjoy filling, generous portions that are easy on every pocket.
+                    </p>
+                </div>
+
+                <!-- Feature 3: Easy NH 5 Access -->
+                <div class="bg-dhaba-card hover:bg-dhaba-card/80 p-7 rounded-3xl border border-dhaba-border hover:border-dhaba-gold/50 transition-all group">
+                    <div class="w-12 h-12 rounded-2xl bg-dhaba-gold/15 text-dhaba-gold flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+                    </div>
+                    <h3 class="font-serif text-2xl font-bold text-dhaba-cream">Easy NH 5 Access</h3>
+                    <p class="text-sm text-dhaba-sand mt-2 leading-relaxed">
+                        Right on NH 5 at Gangapada, Khordha—pull over effortlessly without detouring into congested city traffic.
+                    </p>
+                </div>
+
+                <!-- Feature 4: Family Friendly -->
+                <div class="bg-dhaba-card hover:bg-dhaba-card/80 p-7 rounded-3xl border border-dhaba-border hover:border-dhaba-gold/50 transition-all group">
+                    <div class="w-12 h-12 rounded-2xl bg-dhaba-gold/15 text-dhaba-gold flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    </div>
+                    <h3 class="font-serif text-2xl font-bold text-dhaba-cream">Family Friendly</h3>
+                    <p class="text-sm text-dhaba-sand mt-2 leading-relaxed">
+                        Comfortable seating and a welcoming atmosphere for families, road-trip groups, and friends dining together.
+                    </p>
+                </div>
+
+                <!-- Feature 5: Quick Service -->
+                <div class="bg-dhaba-card hover:bg-dhaba-card/80 p-7 rounded-3xl border border-dhaba-border hover:border-dhaba-gold/50 transition-all group">
+                    <div class="w-12 h-12 rounded-2xl bg-dhaba-gold/15 text-dhaba-gold flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    </div>
+                    <h3 class="font-serif text-2xl font-bold text-dhaba-cream">Quick Service</h3>
+                    <p class="text-sm text-dhaba-sand mt-2 leading-relaxed">
+                        We respect your travel schedule. Expect prompt table service so you can enjoy a hot meal and get back on the road refreshed.
+                    </p>
+                </div>
+
+                <!-- Feature 6: Dine-in & Drive-through -->
+                <div class="bg-dhaba-card hover:bg-dhaba-card/80 p-7 rounded-3xl border border-dhaba-border hover:border-dhaba-gold/50 transition-all group">
+                    <div class="w-12 h-12 rounded-2xl bg-dhaba-gold/15 text-dhaba-gold flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
+                    </div>
+                    <h3 class="font-serif text-2xl font-bold text-dhaba-cream">Dine-in & Drive-through</h3>
+                    <p class="text-sm text-dhaba-sand mt-2 leading-relaxed">
+                        Choose relaxed dine-in seating, convenient drive-through pickup, or local delivery—open daily until 11:30 PM.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DEDICATED TRAVELLER SECTION ("Your Perfect Highway Food Stop") -->
+    <section class="py-16 lg:py-24 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="relative rounded-3xl overflow-hidden border border-dhaba-gold/40 shadow-card">
+                <!-- Background Highway / Food Banner -->
+                <div class="absolute inset-0">
+                    <img 
+                        src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1600&q=80" 
+                        alt="Warm Evening Highway Restaurant Stop at Gangapada Dhaba" 
+                        class="w-full h-full object-cover"
+                        onerror="this.src='https://placehold.co/1600x700/1C1714/E89830?text=NH+5+Highway+Stop'"
+                    />
+                    <div class="absolute inset-0 bg-gradient-to-r from-[#13100E] via-[#13100E]/92 to-[#13100E]/65"></div>
+                </div>
+
+                <div class="relative z-10 p-8 sm:p-12 lg:p-16 grid lg:grid-cols-12 gap-8 items-center">
+                    <div class="lg:col-span-8 space-y-4">
+                        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-dhaba-gold text-dhaba-bg text-xs font-extrabold uppercase tracking-widest">
+                            NH 5, Gangapada • Khordha – Bhubaneswar Corridor
+                        </div>
+                        <h2 class="font-serif text-3xl sm:text-5xl font-bold text-dhaba-cream leading-tight">
+                            Your Perfect Highway Food Stop
+                        </h2>
+                        <p class="text-dhaba-sand text-base sm:text-lg max-w-2xl leading-relaxed">
+                            Travelling along NH 5 through Gangapada? Skip thepacked city detours and questionable roadside stalls. Pull over at <strong class="text-dhaba-cream">Gangapada Dhaba</strong> for easy highway access, quick table turnaround, and satisfying Indian meals cooked fresh until <strong class="text-dhaba-gold">11:30 PM</strong>.
+                        </p>
+                        <div class="pt-2 flex flex-wrap gap-6 text-xs sm:text-sm font-semibold text-dhaba-cream">
+                            <span class="flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-dhaba-gold"></span> Easy Highway Pull-In
+                            </span>
+                            <span class="flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-dhaba-gold"></span> Fast Service for Travellers
+                            </span>
+                            <span class="flex items-center gap-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-dhaba-gold"></span> Call Ahead for Group Orders
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col gap-3.5 justify-end">
+                        <a href="#location" class="w-full py-4 px-7 rounded-2xl bg-gradient-to-r from-dhaba-gold to-dhaba-terracotta text-dhaba-bg font-extrabold text-center text-base shadow-glow hover:scale-[1.02] transition-all">
+                            Plan Your Stop
+                        </a>
+                        <a href="tel:09861310152" class="w-full py-4 px-7 rounded-2xl glass-card border border-dhaba-gold/50 text-dhaba-cream font-bold text-center text-base hover:bg-dhaba-card transition-all">
+                            📞 Call 098613 10152
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MASONRY PHOTO GALLERY SECTION -->
+    <section id="gallery" class="py-20 lg:py-28 bg-dhaba-surface border-t border-dhaba-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+                <div>
+                    <span class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-dhaba-gold/15 border border-dhaba-gold/30 text-dhaba-gold text-xs font-bold uppercase tracking-widest">
+                        Visual Taste & Atmosphere
+                    </span>
+                    <h2 class="font-serif text-3xl sm:text-5xl font-bold text-dhaba-cream mt-3">
+                        Inside the Gangapada Dhaba Experience
+                    </h2>
+                </div>
+                <p class="text-xs sm:text-sm text-dhaba-muted max-w-md">
+                    Structured gallery showcasing our signature dishes, tandoor preparation, and highway dining experience. (Owner-ready slots for custom restaurant photography).
+                </p>
+            </div>
+
+            <!-- Masonry-Style Responsive Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                
+                <!-- Gallery Item 1: Signature Dishes -->
+                <div class="group relative rounded-2xl overflow-hidden border border-dhaba-border bg-dhaba-card h-80 cursor-pointer" onclick="openLightbox('https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&w=1200&q=85', 'Signature Dhaba Butter Chicken & Kadhai Gravy')">
+                    <img src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?auto=format&fit=crop&w=800&q=80" alt="Signature Dishes at Gangapada Dhaba" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/800x600/241E1A/E89830?text=Signature+Dishes'"/>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent p-5 flex flex-col justify-end">
+                        <span class="text-[11px] uppercase tracking-widest text-dhaba-gold font-bold">Signature Dishes</span>
+                        <h3 class="text-lg font-bold text-dhaba-cream">Rich Handi & Kadhai Curries</h3>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 2: Food Preparation / Tandoor -->
+                <div class="group relative rounded-2xl overflow-hidden border border-dhaba-border bg-dhaba-card h-80 cursor-pointer" onclick="openLightbox('https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?auto=format&fit=crop&w=1200&q=85', 'Smoky Clay Oven Tandoori Kebabs & Rotis')">
+                    <img src="https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?auto=format&fit=crop&w=800&q=80" alt="Tandoor Food Preparation" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/800x600/241E1A/E89830?text=Live+Tandoor+Prep'"/>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent p-5 flex flex-col justify-end">
+                        <span class="text-[11px] uppercase tracking-widest text-dhaba-gold font-bold">Food Preparation</span>
+                        <h3 class="text-lg font-bold text-dhaba-cream">Freshly Roasted from the Clay Tandoor</h3>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 3: Aromatic Biryani -->
+                <div class="group relative rounded-2xl overflow-hidden border border-dhaba-border bg-dhaba-card h-80 cursor-pointer" onclick="openLightbox('https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=1200&q=85', 'Aromatic Dum Biryani Served Hot')">
+                    <img src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=800&q=80" alt="Aromatic Dum Biryani" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/800x600/241E1A/E89830?text=Dum+Biryani'"/>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent p-5 flex flex-col justify-end">
+                        <span class="text-[11px] uppercase tracking-widest text-dhaba-gold font-bold">Signature Dishes</span>
+                        <h3 class="text-lg font-bold text-dhaba-cream">Generous Highway Dum Biryani</h3>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 4: Restaurant Ambience & Dining Area -->
+                <div class="group relative rounded-2xl overflow-hidden border border-dhaba-border bg-dhaba-card h-72 cursor-pointer" onclick="openLightbox('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=1200&q=85', 'Casual & Comfortable Family Dining Area')">
+                    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?auto=format&fit=crop&w=800&q=80" alt="Restaurant Ambience and Dining Area" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/800x600/241E1A/E89830?text=Dining+Area'"/>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent p-5 flex flex-col justify-end">
+                        <span class="text-[11px] uppercase tracking-widest text-dhaba-gold font-bold">Dining Area & Ambience</span>
+                        <h3 class="text-lg font-bold text-dhaba-cream">Relaxed Group & Family Seating</h3>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 5: Crispy Naan & Rotis -->
+                <div class="group relative rounded-2xl overflow-hidden border border-dhaba-border bg-dhaba-card h-72 cursor-pointer" onclick="openLightbox('https://images.unsplash.com/photo-1626074353765-517a681e40be?auto=format&fit=crop&w=1200&q=85', 'Hot Butter Naan, Lachha Paratha & Dal Tadka')">
+                    <img src="https://images.unsplash.com/photo-1626074353765-517a681e40be?auto=format&fit=crop&w=800&q=80" alt="Hot Tandoori Rotis and Tadka" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/800x600/241E1A/E89830?text=Hot+Rotis+and+Tadka'"/>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent p-5 flex flex-col justify-end">
+                        <span class="text-[11px] uppercase tracking-widest text-dhaba-gold font-bold">Dhaba Classics</span>
+                        <h3 class="text-lg font-bold text-dhaba-cream">Crisp Tandoori Roti & Yellow Dal Tadka</h3>
+                    </div>
+                </div>
+
+                <!-- Gallery Item 6: Highway / Exterior Evening Vibe -->
+                <div class="group relative rounded-2xl overflow-hidden border border-dhaba-border bg-dhaba-card h-72 cursor-pointer" onclick="openLightbox('https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=1200&q=85', 'Evening Highway Stop Atmosphere — Open Until 11:30 PM')">
+                    <img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=800&q=80" alt="Evening Highway Dining Atmosphere" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/800x600/241E1A/E89830?text=NH5+Evening+Stop'"/>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent p-5 flex flex-col justify-end">
+                        <span class="text-[11px] uppercase tracking-widest text-dhaba-gold font-bold">Highway Atmosphere</span>
+                        <h3 class="text-lg font-bold text-dhaba-cream">Welcoming Evening Stop on NH 5</h3>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- LOCATION & GOOGLE MAPS SECTION -->
+    <section id="location" class="py-20 lg:py-28 bg-dhaba-bg warm-ambient-bg border-t border-dhaba-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-12 gap-10 items-stretch">
+                
+                <!-- Left Column: Location Details Card -->
+                <div class="lg:col-span-5 bg-dhaba-card rounded-3xl p-7 sm:p-9 border border-dhaba-border flex flex-col justify-between shadow-card">
+                    <div class="space-y-6">
+                        <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-700/60 text-xs font-bold">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                            Open until 11:30 PM
+                        </div>
+
+                        <div>
+                            <h2 class="font-serif text-3xl sm:text-4xl font-bold text-dhaba-cream">
+                                Find Us on NH 5, Gangapada
+                            </h2>
+                            <p class="text-dhaba-sand text-sm mt-2">
+                                Conveniently located along National Highway 5 for travellers between Bhubaneswar, Khordha, and nearby college/industrial hubs.
+                            </p>
+                        </div>
+
+                        <!-- Address Block -->
+                        <div class="p-4 rounded-2xl bg-dhaba-surface border border-dhaba-border space-y-2">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold uppercase tracking-wider text-dhaba-gold">Verified Location</span>
+                                <button id="copy-address-btn" type="button" class="text-xs text-dhaba-sand hover:text-dhaba-gold font-semibold flex items-center gap-1 transition-colors">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                                    <span id="copy-address-text">Copy Address</span>
+                                </button>
+                            </div>
+                            <p class="font-bold text-dhaba-cream text-base">Gangapada Dhaba</p>
+                            <p class="text-sm text-dhaba-sand leading-relaxed">
+                                NH 5, Gangapada, Khordha, Bhubaneswar, Odisha 752054
+                            </p>
+                        </div>
+
+                        <!-- Key Details Grid -->
+                        <div class="grid grid-cols-2 gap-3 text-xs sm:text-sm">
+                            <div class="p-3.5 rounded-xl bg-dhaba-surface border border-dhaba-border">
+                                <span class="text-dhaba-muted block text-xs">Rating</span>
+                                <strong class="text-dhaba-cream">3.8 ⭐ (496 Reviews)</strong>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-dhaba-surface border border-dhaba-border">
+                                <span class="text-dhaba-muted block text-xs">Price Per Person</span>
+                                <strong class="text-dhaba-gold">₹1–₹200</strong>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-dhaba-surface border border-dhaba-border">
+                                <span class="text-dhaba-muted block text-xs">Service Options</span>
+                                <strong class="text-dhaba-cream">Dine-in • Drive-thru</strong>
+                            </div>
+                            <div class="p-3.5 rounded-xl bg-dhaba-surface border border-dhaba-border">
+                                <span class="text-dhaba-muted block text-xs">Closing Time</span>
+                                <strong class="text-emerald-400">11:30 PM Daily</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Primary & Secondary Location CTAs -->
+                    <div class="pt-6 mt-6 border-t border-dhaba-border flex flex-col sm:flex-row lg:flex-col gap-3">
+                        <a href="https://maps.google.com/?cid=4461194145462844940" target="_blank" rel="noopener noreferrer" class="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-dhaba-gold to-dhaba-terracotta text-dhaba-bg font-extrabold text-center text-base shadow-glow hover:brightness-110 transition-all flex items-center justify-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>
+                            Get Directions
+                        </a>
+                        <a href="tel:09861310152" class="w-full py-4 px-6 rounded-2xl bg-dhaba-surface hover:bg-dhaba-bg border border-dhaba-gold/50 text-dhaba-cream font-bold text-center text-base transition-all flex items-center justify-center gap-2">
+                            <svg class="w-5 h-5 text-dhaba-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                            Call 098613 10152
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right Column: Interactive Google Map Embed -->
+                <div class="lg:col-span-7 rounded-3xl overflow-hidden border border-dhaba-border bg-dhaba-card shadow-card min-h-[400px] relative flex flex-col">
+                    <iframe 
+                        title="Google Map Location for Gangapada Dhaba NH 5 Bhubaneswar"
+                        src="https://www.google.com/maps?q=Gangapada+Dhaba+NH+5+Gangapada+Khordha+Bhubaneswar+Odisha+752054&output=embed" 
+                        class="w-full flex-grow min-h-[380px] border-0 filter contrast-105"
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                    <div class="p-4 bg-dhaba-surface border-t border-dhaba-border flex flex-wrap items-center justify-between gap-3 text-xs sm:text-sm">
+                        <span class="text-dhaba-sand">📍 Landmark: On NH 5 Highway at Gangapada, between Bhubaneswar & Khordha</span>
+                        <a href="https://maps.google.com/?cid=4461194145462844940" target="_blank" rel="noopener noreferrer" class="text-dhaba-gold font-bold hover:underline">
+                            Launch Turn-by-Turn Navigation →
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- CONVERSION-FOCUSED CONTACT SECTION -->
+    <section id="contact" class="py-20 bg-dhaba-surface border-t border-dhaba-border">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-card rounded-3xl p-8 sm:p-12 text-center border border-dhaba-gold/40 shadow-card relative overflow-hidden">
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-dhaba-gold/15 text-dhaba-gold text-xs font-bold uppercase tracking-widest mb-4">
+                    Hungry on NH 5? Talk to Us Directly
+                </div>
+
+                <h2 class="font-serif text-3xl sm:text-5xl font-bold text-dhaba-cream max-w-2xl mx-auto leading-tight">
+                    Ready for a Hot Dhaba Meal? Call or Visit Us Now
+                </h2>
+
+                <p class="text-dhaba-sand text-base sm:text-lg mt-3 max-w-2xl mx-auto">
+                    Whether you want to check table availability for your family, ask about today's fresh specials, or place a quick takeaway order before you reach Gangapada, give us a ring.
+                </p>
+
+                <!-- Large Phone Number Display -->
+                <div class="my-8 inline-block px-8 py-5 rounded-2xl bg-dhaba-bg border border-dhaba-border">
+                    <span class="text-xs uppercase tracking-widest text-dhaba-muted block mb-1">Direct Dhaba Contact Line</span>
+                    <a href="tel:09861310152" class="font-serif text-3xl sm:text-5xl font-bold text-dhaba-gold hover:text-dhaba-goldHover transition-colors tracking-tight">
+                        098613 10152
+                    </a>
+                </div>
+
+                <!-- Large Tap-Friendly Conversion Buttons -->
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-xl mx-auto">
+                    <a href="tel:09861310152" class="w-full sm:w-1/2 py-4 px-8 rounded-2xl bg-gradient-to-r from-dhaba-gold to-dhaba-terracotta text-dhaba-bg font-extrabold text-lg shadow-glow hover:scale-[1.02] transition-all flex items-center justify-center gap-3">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                        Call Now
+                    </a>
+                    <a href="https://maps.google.com/?cid=4461194145462844940" target="_blank" rel="noopener noreferrer" class="w-full sm:w-1/2 py-4 px-8 rounded-2xl bg-dhaba-card hover:bg-dhaba-bg border border-dhaba-gold/60 text-dhaba-cream font-extrabold text-lg transition-all flex items-center justify-center gap-3">
+                        <svg class="w-5 h-5 text-dhaba-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>
+                        Get Directions
+                    </a>
+                </div>
+
+                <p class="text-xs text-dhaba-muted mt-6">
+                    Open Daily Until 11:30 PM • Dine-in • Drive-through • Delivery
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <div class="dhaba-pattern-divider"></div>
+
+    <!-- FOOTER -->
+    <footer class="bg-[#0D0B09] text-dhaba-sand pt-16 pb-24 lg:pb-12 border-t border-dhaba-border">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-12 gap-10 pb-12 border-b border-dhaba-border">
+                
+                <!-- Brand & SEO Summary -->
+                <div class="md:col-span-5 space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-dhaba-gold to-dhaba-terracotta flex items-center justify-center text-dhaba-bg font-extrabold">
+                            GD
+                        </div>
+                        <span class="font-serif text-2xl font-bold text-dhaba-cream">Gangapada Dhaba</span>
+                    </div>
+                    <p class="text-sm text-dhaba-muted leading-relaxed max-w-sm">
+                        Authentic Indian highway dhaba on NH 5, Gangapada, serving delicious, affordable meals (₹1–₹200 per person) for travellers and diners across Bhubaneswar and Khordha.
+                    </p>
+                    <p class="text-xs text-dhaba-muted">
+                        Popular Searches: Gangapada Dhaba • Dhaba in Bhubaneswar • Restaurants near Gangapada • Restaurants on NH 5 Bhubaneswar • Indian food in Khordha
+                    </p>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="md:col-span-3 space-y-3">
+                    <h3 class="text-xs font-bold uppercase tracking-widest text-dhaba-gold">Quick Links</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#home" class="hover:text-dhaba-gold transition-colors">Home</a></li>
+                        <li><a href="#about" class="hover:text-dhaba-gold transition-colors">About Us</a></li>
+                        <li><a href="#menu" class="hover:text-dhaba-gold transition-colors">Menu</a></li>
+                        <li><a href="#gallery" class="hover:text-dhaba-gold transition-colors">Gallery</a></li>
+                        <li><a href="#location" class="hover:text-dhaba-gold transition-colors">Location</a></li>
+                        <li><a href="#contact" class="hover:text-dhaba-gold transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Address & Phone -->
+                <div class="md:col-span-4 space-y-3">
+                    <h3 class="text-xs font-bold uppercase tracking-widest text-dhaba-gold">Visit or Call</h3>
+                    <p class="text-sm text-dhaba-cream font-semibold">Gangapada Dhaba</p>
+                    <p class="text-sm text-dhaba-sand">
+                        NH 5, Gangapada, Khordha, Bhubaneswar, Odisha 752054
+                    </p>
+                    <p class="text-sm pt-1">
+                        Phone: <a href="tel:09861310152" class="text-dhaba-gold font-bold hover:underline">098613 10152</a>
+                    </p>
+                    <p class="text-xs text-emerald-400 font-semibold">
+                        Open Daily • Closes at 11:30 PM
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-dhaba-muted">
+                <p>© 2026 Gangapada Dhaba. All rights reserved.</p>
+                <div class="flex items-center gap-4">
+                    <a href="#home" class="hover:text-dhaba-gold">Home</a>
+                    <span>|</span>
+                    <a href="#menu" class="hover:text-dhaba-gold">Menu</a>
+                    <span>|</span>
+                    <a href="#gallery" class="hover:text-dhaba-gold">Gallery</a>
+                    <span>|</span>
+                    <a href="#location" class="hover:text-dhaba-gold">Location</a>
+                    <span>|</span>
+                    <a href="#contact" class="hover:text-dhaba-gold">Contact</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MOBILE STICKY CONVERSION BOTTOM BAR (📍 Directions | 📞 Call Now | 🍽️ Menu) -->
+    <div class="fixed bottom-0 inset-x-0 z-50 lg:hidden glass-nav border-t border-dhaba-gold/40 px-3 py-2.5 shadow-2xl">
+        <div class="grid grid-cols-3 gap-2 max-w-md mx-auto">
+            <a href="https://maps.google.com/?cid=4461194145462844940" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-1.5 py-3 px-2 rounded-xl bg-gradient-to-r from-dhaba-gold to-dhaba-terracotta text-dhaba-bg font-extrabold text-xs shadow-md active:scale-95 transition-transform">
+                <span>📍</span>
+                <span>Directions</span>
+            </a>
+            <a href="tel:09861310152" class="flex items-center justify-center gap-1.5 py-3 px-2 rounded-xl bg-dhaba-card border border-dhaba-gold/50 text-dhaba-cream font-bold text-xs active:scale-95 transition-transform">
+                <span>📞</span>
+                <span>Call Now</span>
+            </a>
+            <a href="#menu" class="flex items-center justify-center gap-1.5 py-3 px-2 rounded-xl bg-dhaba-card border border-dhaba-border text-dhaba-sand font-bold text-xs active:scale-95 transition-transform">
+                <span>🍽️</span>
+                <span>Menu</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- FULL MENU MODAL (OPENED BY "VIEW FULL MENU" BUTTONS) -->
+    <div id="full-menu-modal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-dhaba-surface border border-dhaba-gold/40 rounded-3xl max-w-4xl w-full max-h-[90vh] flex flex-col overflow-hidden shadow-2xl">
+            <!-- Modal Header -->
+            <div class="p-6 border-b border-dhaba-border flex items-center justify-between gap-4 bg-dhaba-card">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-dhaba-gold">Gangapada Dhaba • NH 5</span>
+                    <h3 class="font-serif text-2xl sm:text-3xl font-bold text-dhaba-cream">Complete Menu Preview</h3>
+                </div>
+                <button id="close-full-menu-btn" type="button" class="p-2.5 rounded-xl bg-dhaba-surface border border-dhaba-border text-dhaba-sand hover:text-dhaba-gold">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-6 overflow-y-auto space-y-6 text-sm">
+                <div class="p-4 rounded-2xl bg-amber-950/60 border border-dhaba-gold/40 text-amber-200 text-xs flex flex-wrap items-center justify-between gap-2">
+                    <span>💡 <strong>Note on Pricing:</strong> Most meals range between <strong>₹1–₹200 per person</strong>. Exact dish rates can be confirmed at the counter or by phone.</span>
+                    <a href="tel:09861310152" class="text-dhaba-gold font-bold underline">Call 098613 10152</a>
+                </div>
+
+                <div id="modal-menu-categories" class="grid md:grid-cols-2 gap-6">
+                    <!-- Populated dynamically from the menu items array -->
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="p-5 border-t border-dhaba-border bg-dhaba-card flex flex-wrap items-center justify-between gap-3">
+                <span class="text-xs text-dhaba-sand">NH 5, Gangapada, Khordha, Bhubaneswar • Open until 11:30 PM</span>
+                <div class="flex items-center gap-3">
+                    <a href="tel:09861310152" class="px-5 py-2.5 rounded-xl bg-dhaba-gold text-dhaba-bg font-bold text-xs">Call to Order / Enquire</a>
+                    <a href="https://maps.google.com/?cid=4461194145462844940" target="_blank" rel="noopener noreferrer" class="px-5 py-2.5 rounded-xl border border-dhaba-border text-dhaba-cream font-bold text-xs">Get Directions</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- IMAGE LIGHTBOX MODAL -->
+    <div id="lightbox-modal" class="fixed inset-0 z-50 hidden bg-black/90 backdrop-blur-md flex items-center justify-center p-4" onclick="closeLightbox()">
+        <div class="max-w-4xl w-full relative" onclick="event.stopPropagation()">
+            <button type="button" onclick="closeLightbox()" class="absolute -top-12 right-0 text-dhaba-cream hover:text-dhaba-gold font-bold text-sm flex items-center gap-1">
+                Close ✕
+            </button>
+            <img id="lightbox-img" src="" alt="Gallery Preview" class="w-full max-h-[78vh] object-contain rounded-2xl border border-dhaba-border" />
+            <p id="lightbox-caption" class="text-center text-dhaba-cream font-serif text-xl mt-3"></p>
+        </div>
+    </div>
+
+    <!-- APPLICATION JAVASCRIPT -->
+    <script>
+        /* =========================================================================
+           1. CURATED DHABA MENU DATA (Editable Placeholder Items & "Ask for price")
+           ========================================================================= */
+        const menuDishes = [
+            {
+                id: 1,
+                category: 'Main Course',
+                name: 'Dhaba Style Chicken Kassa / Curry',
+                description: 'Slow-cooked country spices, caramelized onions, and rich highway-style gravy served piping hot.',
+                price: 'Ask for price',
+                badge: 'Highway Favourite',
+                image: 'https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?auto=format&fit=crop&w=700&q=80'
+            },
+            {
+                id: 2,
+                category: 'Main Course',
+                name: 'Smoky Double Dal Tadka',
+                description: 'Yellow lentils tempered with whole red chillies, roasted cumin, garlic, and a touch of desi ghee.',
+                price: 'Ask for price',
+                badge: 'Must Try',
+                image: 'https://images.unsplash.com/photo-1546833999-b9f581a1996d?auto=format&fit=crop&w=700&q=80'
+            },
+            {
+                id: 3,
+                category: 'Main Course',
+                name: 'Paneer Butter Masala / Kadhai Paneer',
+                description: 'Soft paneer cubes tossed in a rich tomato-cashew gravy with freshly crushed coriander and capsicum.',
+                price: 'Ask for price',
+                badge: 'Vegetarian Star',
+                image: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc7?auto=format&fit=crop&w=700&q=80'
+            },
+            {
+                id: 4,
+                category: 'Biryani',
+                name: 'Highway Special Chicken Dum Biryani',
+                description: 'Fragrant long-grain basmati rice layered with spiced chicken, herbs, and caramelized onions.',
+                price: 'Ask for price',
+                badge: 'Bestseller',
+                image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?auto=format&fit=crop&w=700&q=80'
+            },
+            {
+                id: 5,
+                category: 'Biryani',
+                name: 'Aromatic Veg / Egg Masala Biryani',
+                description: 'Hearty spiced rice preparation served with cooling raita and classic dhaba salan.',
+                price: 'Ask for price',
+                badge: 'Value Meal',
+                image: 'https://images.unsplash.com/photo-1589302168068-964664d93dc0?auto=format&fit=crop&w=700&q=80'
+            },
+            {
+                id: 6,
+                category: 'Tandoor',
+                name: 'Charcoal Tandoori Chicken & Tikka',
+                description: 'Marinated in spiced yogurt and roasted in our clay oven for an unmistakable smoky char.',
+                price: 'Ask for price',
+                badge: 'Live Tandoor',
+                image: 'https://images.unsplash.com/photo-1599487488170-d11ec9c172f0?auto=format&fit=crop&w=700&q=80'
+            },
+            {
+                id: 7,
+                category: 'Tandoor',
+                name: 'Crisp Butter Tandoori Roti & Garlic Naan',
+                description: 'Freshly slapped onto the glowing tandoor walls and brushed with butter—ideal with any gravy.',
+                price: 'Ask for price',
+                badge: 'Fresh to Order',
+                image: 'https://images.unsplash.com/photo-1626074353765-517a681e40be?auto=format&fit=crop&w=700&q=80'
+            },
+            {
+                id: 8,
+                category: 'Snacks',
+                name: 'Crispy Pakoras & Chilli Paneer / Chicken',
+                description: 'Hot evening highway starters tossed with green chillies, garlic, and tangy house sauces.',
+                price: 'Ask for price',
+                badge: 'Quick Bite',
+                image: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?auto=format&fit=crop&w=700&q=80'
+            },
+            {
+                id: 9,
+                category: 'Breakfast',
+                name: 'Stuffed Dhaba Paratha & Morning Puri Sabzi',
+                description: 'Wholesome morning highway stop breakfast served hot with spicy potato curry and pickle.',
+                price: 'Ask for price',
+                badge: 'Morning Stop',
+                image: 'https://images.unsplash.com/photo-1606491956689-2ea866880c84?auto=format&fit=crop&w=700&q=80'
+            },
+            {
+                id: 10,
+                category: 'Beverages',
+                name: 'Kadak Highway Masala Chai & Sweet Lassi',
+                description: 'Refreshing chilled punjabi lassi or a steaming cup of cardamom-ginger tea to recharge your drive.',
+                price: 'Ask for price',
+                badge: 'Traveller Refresh',
+                image: 'https://images.unsplash.com/photo-1561336313-0bd5e0b27ec8?auto=format&fit=crop&w=700&q=80'
+            }
+        ];
+
+        let currentCategory = 'all';
+        let isOwnerEditMode = false;
+
+        /* =========================================================================
+           2. RENDER SIGNATURE FOOD SHOWCASE CARDS
+           ========================================================================= */
+        const gridContainer = document.getElementById('food-showcase-grid');
+
+        function renderFoodCards(categoryFilter = 'all') {
+            const filtered = categoryFilter === 'all' 
+                ? menuDishes 
+                : menuDishes.filter(item => item.category === categoryFilter);
+
+            gridContainer.innerHTML = filtered.map(dish => `
+                <article class="food-card bg-dhaba-card rounded-3xl overflow-hidden border border-dhaba-border flex flex-col justify-between shadow-card group">
+                    <div>
+                        <div class="relative h-52 overflow-hidden bg-dhaba-bg">
+                            <img 
+                                src="${dish.image}" 
+                                alt="${dish.name}" 
+                                class="food-card-img w-full h-full object-cover"
+                                loading="lazy"
+                                onerror="this.src='https://placehold.co/600x400/241E1A/E89830?text=Gangapada+Dhaba+Special'"
+                            />
+                            <div class="absolute top-3 left-3 flex items-center gap-2">
+                                <span class="px-3 py-1 rounded-full bg-dhaba-bg/90 backdrop-blur-md text-dhaba-gold border border-dhaba-gold/40 text-xs font-bold">
+                                    ${dish.category}
+                                </span>
+                            </div>
+                            <div class="absolute top-3 right-3">
+                                <span class="px-2.5 py-1 rounded-full bg-dhaba-terracotta/95 text-dhaba-cream text-[11px] font-bold">
+                                    ${dish.badge}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="p-6">
+                            <div class="flex items-start justify-between gap-3">
+                                <h3 class="font-serif text-2xl font-bold text-dhaba-cream leading-snug owner-editable" contenteditable="${isOwnerEditMode}">
+                                    ${dish.name}
+                                </h3>
+                            </div>
+                            <p class="text-sm text-dhaba-sand mt-2 leading-relaxed owner-editable" contenteditable="${isOwnerEditMode}">
+                                ${dish.description}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="px-6 pb-6 pt-3 border-t border-dhaba-border/70 flex items-center justify-between gap-2">
+                        <div>
+                            <span class="text-[11px] uppercase tracking-wider text-dhaba-muted block">Price (Editable Placeholder)</span>
+                            <span class="text-sm font-extrabold text-dhaba-gold owner-editable" contenteditable="${isOwnerEditMode}">${dish.price}</span>
+                        </div>
+                        <a href="tel:09861310152" class="px-3.5 py-2 rounded-xl bg-dhaba-surface hover:bg-dhaba-gold hover:text-dhaba-bg text-dhaba-cream border border-dhaba-border text-xs font-bold transition-colors">
+                            Enquire →
+                        </a>
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        /* =========================================================================
+           3. RENDER FULL MENU MODAL LIST
+           ========================================================================= */
+        function renderFullMenuModal() {
+            const modalContainer = document.getElementById('modal-menu-categories');
+            const categories = ['Main Course', 'Biryani', 'Tandoor', 'Snacks', 'Breakfast', 'Beverages'];
+
+            modalContainer.innerHTML = categories.map(cat => {
+                const items = menuDishes.filter(d => d.category === cat);
+                return `
+                    <div class="bg-dhaba-card p-5 rounded-2xl border border-dhaba-border">
+                        <h4 class="font-serif text-xl font-bold text-dhaba-gold border-b border-dhaba-border pb-2 mb-3">${cat}</h4>
+                        <div class="space-y-3">
+                            ${items.map(item => `
+                                <div class="flex items-start justify-between gap-3">
+                                    <div>
+                                        <p class="font-bold text-dhaba-cream">${item.name}</p>
+                                        <p class="text-xs text-dhaba-muted">${item.description}</p>
+                                    </div>
+                                    <span class="text-xs font-bold text-dhaba-gold shrink-0 px-2 py-1 rounded bg-dhaba-surface border border-dhaba-border">
+                                        ${item.price}
+                                    </span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        /* =========================================================================
+           4. EVENT LISTENERS (Tabs, Owner Edit Mode, Mobile Menu, Copy Address)
+           ========================================================================= */
+        window.onload = function() {
+            renderFoodCards('all');
+            renderFullMenuModal();
+
+            // Category Filtering Tabs
+            const tabButtons = document.querySelectorAll('.menu-tab');
+            tabButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    currentCategory = btn.getAttribute('data-category');
+                    tabButtons.forEach(b => {
+                        b.classList.remove('bg-dhaba-gold', 'text-dhaba-bg', 'shadow-glow', 'font-bold');
+                        b.classList.add('bg-dhaba-card', 'text-dhaba-sand', 'font-semibold');
+                    });
+                    btn.classList.remove('bg-dhaba-card', 'text-dhaba-sand', 'font-semibold');
+                    btn.classList.add('bg-dhaba-gold', 'text-dhaba-bg', 'shadow-glow', 'font-bold');
+                    renderFoodCards(currentCategory);
+                });
+            });
+
+            // Owner Edit Mode Toggle
+            const editToggleBtn = document.getElementById('owner-edit-toggle');
+            editToggleBtn.addEventListener('click', () => {
+                isOwnerEditMode = !isOwnerEditMode;
+                document.querySelectorAll('.owner-editable').forEach(el => {
+                    el.setAttribute('contenteditable', isOwnerEditMode ? 'true' : 'false');
+                });
+                if (isOwnerEditMode) {
+                    editToggleBtn.textContent = '✓ Editing Active (Click Text)';
+                    editToggleBtn.classList.add('bg-dhaba-gold', 'text-dhaba-bg');
+                } else {
+                    editToggleBtn.textContent = 'Enable Edit Mode';
+                    editToggleBtn.classList.remove('bg-dhaba-gold', 'text-dhaba-bg');
+                }
+            });
+
+            // Mobile Hamburger Menu Drawer
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const hamIcon = document.getElementById('hamburger-icon');
+            const closeIcon = document.getElementById('close-icon');
+
+            mobileMenuBtn.addEventListener('click', () => {
+                const isHidden = mobileMenu.classList.contains('hidden');
+                if (isHidden) {
+                    mobileMenu.classList.remove('hidden');
+                    hamIcon.classList.add('hidden');
+                    closeIcon.classList.remove('hidden');
+                } else {
+                    mobileMenu.classList.add('hidden');
+                    hamIcon.classList.remove('hidden');
+                    closeIcon.classList.add('hidden');
+                }
+            });
+
+            document.querySelectorAll('.mobile-nav-link').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    hamIcon.classList.remove('hidden');
+                    closeIcon.classList.add('hidden');
+                });
+            });
+
+            // Full Menu Modal Open / Close
+            const fullMenuModal = document.getElementById('full-menu-modal');
+            document.getElementById('open-full-menu-btn').addEventListener('click', () => {
+                fullMenuModal.classList.remove('hidden');
+            });
+            document.getElementById('close-full-menu-btn').addEventListener('click', () => {
+                fullMenuModal.classList.add('hidden');
+            });
+            fullMenuModal.addEventListener('click', (e) => {
+                if (e.target === fullMenuModal) fullMenuModal.classList.add('hidden');
+            });
+
+            // Copy Address Button (Iframe safe via execCommand fallback)
+            const copyBtn = document.getElementById('copy-address-btn');
+            const copyText = document.getElementById('copy-address-text');
+            copyBtn.addEventListener('click', () => {
+                const address = 'Gangapada Dhaba, NH 5, Gangapada, Khordha, Bhubaneswar, Odisha 752054';
+                const tempInput = document.createElement('textarea');
+                tempInput.value = address;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                try {
+                    document.execCommand('copy');
+                    copyText.textContent = 'Copied!';
+                    setTimeout(() => { copyText.textContent = 'Copy Address'; }, 2500);
+                } catch (err) {
+                    copyText.textContent = 'NH 5, Gangapada';
+                }
+                document.body.removeChild(tempInput);
+            });
+        };
+
+        // Lightbox Preview Functions
+        function openLightbox(imgSrc, caption) {
+            const modal = document.getElementById('lightbox-modal');
+            document.getElementById('lightbox-img').src = imgSrc;
+            document.getElementById('lightbox-caption').textContent = caption;
+            modal.classList.remove('hidden');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox-modal').classList.add('hidden');
+        }
+    </script>
 </body>
 </html>
